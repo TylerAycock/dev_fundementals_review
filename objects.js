@@ -172,24 +172,42 @@ let youngersibling = person5["siblings"][1];
 
 let furnitureColor = (person) => {
   for (let category of person.possessionCategories) {
-    if(category.category == 'furniture'){
-        for(let furniture of category.list){
-            if(furniture.age == 40){
-                return furniture.color
-            }
+    if (category.category == "furniture") {
+      for (let furniture of category.list) {
+        if (furniture.age == 40) {
+          return furniture.color;
         }
+      }
     }
   }
-  return `They don't own a couch that old`
+  return `They don't own a couch that old`;
 };
 
-console.log(furnitureColor(person5));
+// console.log(furnitureColor(person5));
 
 // 2.5d
 //  whether or not person5 has any outstanding warrants,
 
+let wanted = person5.hasOutstandingWarrants;
+// console.log(wanted)
+
 // 2.5e
 //  and a list (an array) of all of person5's vehicles.
+
+let carsOwned = (person) => {
+  let cars = [];
+  for (category of person.possessionCategories) {
+    if (category.category == "vehicles") {
+      category.list.map((carObj) => {
+        let { make, model } = carObj;
+        cars.push(`${make} ${model}`);
+      });
+    }
+  }
+  return cars;
+};
+
+// console.log(carsOwned(person5));
 
 // *** Problem 3 ***
 //  Students should be able to modify properties of
@@ -200,22 +218,78 @@ console.log(furnitureColor(person5));
 //  Increment the age of person5 by one year.
 //  Use the ++ operator to do this.
 
+let increaseAge = (person) => {
+  person.age++;
+};
+
+increaseAge(person5);
+
 // 3.1b
 //  Increment the age of person5 by another year.
 //  This time, however, assign the age property
 //  to be itself plus one (use the = operator
 //  rather than using the ++ operator).
 
+let additionalAge = (person) => {
+  person.age = person.age + 1;
+};
+
+additionalAge(person5);
+
+// console.log(person5)
+
 // 3.1c
 //  Make it so that person5 has an outstanding warrant.
 
+let isWanted = (person) => {
+  if (person.hasOutstandingWarrants == true) {
+    console.log("This person is already wanted by the law");
+  } else {
+    person.hasOutstandingWarrants = true;
+    console.log(`This person is NOW WANTED`);
+  }
+};
+
+// isWanted(person5);
+
 // 3.1d
 //  Give person5 another sibling named 'Hecktor'.
+
+let newSibling = "Hecktor";
+
+let addSibling = (person, baby) => {
+  if (person.siblings.includes(baby)) {
+    console.log(`${baby} is already a part of the family tree`);
+  } else {
+    person.siblings = [...person.siblings, baby];
+    console.log(person.siblings);
+  }
+};
+
+addSibling(person5, newSibling);
 
 // 3.1e
 //  Change person5's last-listed car to have the color
 //  purple.
 
+let colorChange = (person, color) => {
+  for (category of person.possessionCategories) {
+    if (category.category == "vehicles") {
+      let car = category.list[category.list.length - 1];
+      car.color = color;
+      console.log(`Yo we pimped out your ${car.make}...we made it ${color}!`);
+    }
+  }
+};
+
+colorChange(person5, "purple");
+
 // 3.1f
 //  Remove the "list" property from the first object of
 //  person5's possessionCategories.
+
+let removeList = (person) => {
+  delete person.possessionCategories[0];
+  console.log(person.possessionCategories);
+};
+removeList(person5);
